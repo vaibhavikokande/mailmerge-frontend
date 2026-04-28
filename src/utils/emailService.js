@@ -2,7 +2,7 @@ const BREVO_API    = 'https://api.brevo.com/v3/smtp/email'
 const BREVO_KEY    = import.meta.env.VITE_BREVO_API_KEY
 const SENDER_NAME  = 'IBN Technologies'
 const SENDER_EMAIL = 'info@ibntechchat.com'
-const SCRIPT_URL   = import.meta.env.VITE_SCRIPT_URL
+const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbwqcOsnhpel2_ipWmO3lbZMjRDgFnUdTRNEVf7ikJk0lxuwA6dmzvC6gjOcbPU7JgM/exec'
 
 function buildHtml(lead) {
   const name    = lead.full_name    || 'Valued Client'

@@ -21,7 +21,8 @@ function SendEmailBtn({ lead, onSent }) {
   const [state, setState] = useState('idle')
   const [errMsg, setErrMsg] = useState('')
 
-  const alreadySent = lead.email_sent?.toLowerCase() === 'yes'
+  const alreadySent = lead.email_sent?.toLowerCase() === 'yes' ||
+                      lead.status?.toLowerCase() === 'sent'
   const noEmail     = !lead.work_email
 
   if (alreadySent) {
