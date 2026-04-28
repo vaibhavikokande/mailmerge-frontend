@@ -85,15 +85,11 @@ export async function sendLeadEmail(lead) {
     throw new Error(err?.message || `Brevo error ${res.status}`)
   }
 
-  // Update sheet via Apps Script
+  // Update sheet via Apps Script GET request (avoids CORS preflight issues)
   try {
-    await fetch(SCRIPT_URL, {
-      method:  'POST',
-      mode:    'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ email: lead.work_email }),
-    })
-  } catch { /* no-cors always resolves */ }
+    const updateUrl = `${SCRIPT_URL}?action=update&email=${encodeURIComponent(lead.work_email)}`
+    await fetch(updateUrl)
+  } catch { /* silent fail — email was already sent */ }
 
   return true
 }
