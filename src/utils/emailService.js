@@ -70,7 +70,7 @@ function buildHtml(lead) {
     <p class="text">We look forward to connecting.</p>
 
     <div class="cta">
-      <a href="https://www.ibntech.com" target="_blank">📅 Schedule a Call →</a>
+      <a href="https://bookings.cloud.microsoft/book/IBNConstructionandEngineeringBackOfficeService@ibntech.com/?ismsaljsauthenabled=true" target="_blank">📅 Schedule a Call →</a>
     </div>
 
     <div class="divider"></div>
