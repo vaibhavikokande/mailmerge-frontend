@@ -110,6 +110,8 @@ const COLS = [
   { key: 'phone_number',  label: 'Phone'          },
   { key: 'company_name',  label: 'Company'        },
   { key: 'service',       label: 'Service Needed' },
+  { key: 'looking_for',   label: 'Looking For'    },
+  { key: 'resource_type', label: 'Resource'       },
   { key: 'platform',      label: 'Platform'       },
   { key: 'campaign_name', label: 'Campaign'       },
   { key: 'status',        label: 'Status'         },
@@ -226,6 +228,8 @@ export default function Contacts({ leads }) {
                     <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{lead.phone_number || '—'}</td>
                     <td className="px-4 py-3 text-slate-600 whitespace-nowrap">{lead.company_name || '—'}</td>
                     <td className="px-4 py-3 text-slate-500 max-w-[140px] truncate">{lead.service || '—'}</td>
+                    <td className="px-4 py-3 text-slate-500 max-w-[130px] truncate">{lead.looking_for || '—'}</td>
+                    <td className="px-4 py-3 text-slate-500 max-w-[110px] truncate">{lead.resource_type || '—'}</td>
                     <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{lead.platform || '—'}</td>
                     <td className="px-4 py-3 text-slate-500 max-w-[140px] truncate">{lead.campaign_name || '—'}</td>
                     <td className="px-4 py-3 whitespace-nowrap">

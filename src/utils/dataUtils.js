@@ -17,15 +17,42 @@ export function computeKPIs(data) {
     d.status?.toLowerCase().includes('interest')
   ).length
 
+  // Platform breakdown
   const platformCounts = {}
   data.forEach(d => {
-    const p = d.platform?.trim()
+    const p = (d.platform?.trim() || '').toLowerCase()
     if (p) platformCounts[p] = (platformCounts[p] || 0) + 1
   })
   const topPlatform = Object.entries(platformCounts)
-    .sort((a, b) => b[1] - a[1])[0]?.[0] || '—'
+    .sort((a, b) => b[1] - a[1])[0]?.[0]?.toUpperCase() || '—'
 
-  return { total, newLeads, uniqueCompanies, activeCampaigns, interestedLeads, topPlatform }
+  const fromFB = platformCounts['fb'] || platformCounts['facebook'] || 0
+  const fromIG = platformCounts['ig'] || platformCounts['instagram'] || 0
+
+  // Email sent tracking
+  const emailsSent = data.filter(d =>
+    d.email_sent?.toLowerCase() === 'yes' || d.status?.toLowerCase() === 'sent'
+  ).length
+
+  const processed = data.filter(d =>
+    d.status?.toLowerCase() === 'processed' || d.status?.toLowerCase() === 'sent'
+  ).length
+
+  const pending = total - processed
+
+  // Today's sent emails
+  const today = new Date().toDateString()
+  const emailsSentToday = data.filter(d => {
+    if (d.processed_at) {
+      return new Date(d.processed_at).toDateString() === today
+    }
+    return false
+  }).length
+
+  return {
+    total, newLeads, uniqueCompanies, activeCampaigns, interestedLeads,
+    topPlatform, fromFB, fromIG, processed, pending, emailsSent, emailsSentToday
+  }
 }
 
 export function getEngagementData(data, buckets = 12) {

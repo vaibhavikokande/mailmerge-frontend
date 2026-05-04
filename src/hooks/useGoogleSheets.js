@@ -2,11 +2,15 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 
 // ─── Column name aliases ─────────────────────────────────────────────────────
 const ALIAS = {
-  'which_service_do_you_need?': 'service',
-  'which service do you need?': 'service',
-  'when_do_you_want_to_hire?':  'hire_timeline',
-  'when do you want to hire?':  'hire_timeline',
-  'service_needed':             'service',
+  'which_service_do_you_need?':        'service',
+  'which service do you need?':        'service',
+  'when_do_you_want_to_hire?':         'hire_timeline',
+  'when do you want to hire?':         'hire_timeline',
+  'service_needed':                    'service',
+  'what_are_you_looking_for?':         'looking_for',
+  'what are you looking for?':         'looking_for',
+  'briefly_describe_your_requirement': 'description',
+  'briefly describe your requirement': 'description',
 }
 
 function normalise(raw) {
@@ -46,16 +50,21 @@ function rowsToLeads(rows) {
     .map((row, i) => {
       const g = n => String(row[idx(n)] ?? '').trim()
       return {
-        id:            `row-${i + 2}`,
+        id:            g('id') || `row-${i + 2}`,
         full_name:     g('full_name'),
         work_email:    g('work_email'),
         phone_number:  g('phone_number'),
         company_name:  g('company_name'),
         service:       g('service'),
+        looking_for:   g('looking_for'),
+        description:   g('description'),
         resource_type: g('resource_type'),
         hire_timeline: g('hire_timeline'),
         platform:      g('platform'),
         campaign_name: g('campaign_name'),
+        ad_name:       g('ad_name'),
+        adset_name:    g('adset_name'),
+        is_organic:    g('is_organic'),
         created_time:  g('created_time'),
         status:        g('status'),
         processed_at:  g('processed_at'),

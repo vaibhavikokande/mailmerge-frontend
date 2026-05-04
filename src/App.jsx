@@ -6,7 +6,11 @@ import Campaigns  from './components/Campaigns'
 import Templates  from './components/Templates'
 import Analytics  from './components/Analytics'
 import Settings   from './components/Settings'
-import { useLeadsData } from './hooks/useLeadsData'
+import { useGoogleSheets } from './hooks/useGoogleSheets'
+
+// New Google Sheet — direct connection, no backend needed
+const SHEET_URL = import.meta.env.VITE_SHEET_URL ||
+  'https://docs.google.com/spreadsheets/d/1FjAyr_OKXHq9WWMO0nnVuX8beNHbCYTl6NH7U4rmFpk/edit?usp=sharing'
 
 function Spinner() {
   return (
@@ -23,7 +27,7 @@ function ErrorBanner({ message }) {
       <strong>Connection Error:</strong> {message}
       <br />
       <span className="text-red-500 text-xs mt-1 block">
-        Make sure the backend is running: <code>cd backend && npm start</code>
+        Make sure your Google Sheet is set to <strong>Anyone with the link → Viewer</strong>.
       </span>
     </div>
   )
@@ -32,7 +36,11 @@ function ErrorBanner({ message }) {
 export default function App() {
   const [activePage, setActivePage] = useState('dashboard')
 
-  const { leads: data, loading, error, lastUpdated, connected, refetch } = useLeadsData()
+  const { data, loading, error, lastUpdated, connected, newRowIds, refetch } =
+    useGoogleSheets({ sheetUrl: SHEET_URL, refreshInterval: 30_000 })
+
+  // Alias so rest of components use `leads`
+  const leads = data
 
   function renderPage() {
     // Pages that don't need live data can render immediately
@@ -40,18 +48,18 @@ export default function App() {
     if (activePage === 'settings')  return <Settings />
 
     // Pages that depend on live data
-    if (loading && !data.length) return <Spinner />
-    if (error   && !data.length) return <ErrorBanner message={error} />
+    if (loading && !leads.length) return <Spinner />
+    if (error   && !leads.length) return <ErrorBanner message={error} />
 
     switch (activePage) {
       case 'dashboard':
-        return <Dashboard leads={data} loading={loading} lastUpdated={lastUpdated} connected={connected} refetch={refetch} />
+        return <Dashboard leads={leads} loading={loading} lastUpdated={lastUpdated} connected={connected} refetch={refetch} />
       case 'contacts':
-        return <Contacts leads={data} />
+        return <Contacts leads={leads} />
       case 'campaigns':
-        return <Campaigns leads={data} />
+        return <Campaigns leads={leads} />
       case 'analytics':
-        return <Analytics leads={data} />
+        return <Analytics leads={leads} />
       default:
         return null
     }
