@@ -3,7 +3,7 @@ const BREVO_KEY    = import.meta.env.VITE_BREVO_API_KEY
 const SENDER_NAME  = 'IBN Technologies'
 const SENDER_EMAIL = 'info@ibntechchat.com'
 const TEMPLATE_ID  = 3
-const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbwqcOsnhpel2_ipWmO3lbZMjRDgFnUdTRNEVf7ikJk0lxuwA6dmzvC6gjOcbPU7JgM/exec'
+const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycby-S8-JHoOwY1ydB03ueivQKGiM_1fMJBOs_pfQZzvKzMYZC18f0AcmBRkWAHspJoYB/exec'
 
 export async function sendLeadEmail(lead) {
   if (!lead.work_email) throw new Error('No email address for this lead.')
